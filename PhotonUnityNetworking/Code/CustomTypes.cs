@@ -17,8 +17,8 @@ namespace Photon.Pun
 
 
     /// <summary>
-    /// Internally used class, containing de/serialization methods for various Unity-specific classes.
-    /// Adding those to the Photon serialization protocol allows you to send them in events, etc.
+    /// Internally used class, containing de/serialization methods for various Unity-specific classes.内部使用的类，包含针对各种特定于单位的类的反/序列化方法。
+    /// Adding those to the Photon serialization protocol allows you to send them in events, etc.将它们添加到光子序列化协议允许你在事件中发送它们，等等。
     /// </summary>
     internal static class CustomTypes
     {

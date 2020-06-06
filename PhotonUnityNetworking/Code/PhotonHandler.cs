@@ -3,7 +3,7 @@
 //   PhotonNetwork Framework for Unity - Copyright (C) 2018 Exit Games GmbH
 // </copyright>
 // <summary>
-// PhotonHandler is a runtime MonoBehaviour to include PUN into the main loop.
+// PhotonHandler is a runtime MonoBehaviour to include PUN into the main loop.PhotonHandler是运行时MonoBehaviour，可将PUN包含在主循环中。
 // </summary>
 // <author>developer@exitgames.com</author>
 // ----------------------------------------------------------------------------
@@ -15,13 +15,13 @@ namespace Photon.Pun
     using Photon.Realtime;
     using UnityEngine;
 
-    #if UNITY_5_5_OR_NEWER
+#if UNITY_5_5_OR_NEWER
     using UnityEngine.Profiling;
-    #endif
+#endif
 
 
     /// <summary>
-    /// Internal MonoBehaviour that allows Photon to run an Update loop.
+    /// Internal MonoBehaviour that allows Photon to run an Update loop.内部MonoBehaviour，允许Photon运行更新循环。
     /// </summary>
     public class PhotonHandler : ConnectionHandler, IInRoomCallbacks, IMatchmakingCallbacks
     {
@@ -47,21 +47,21 @@ namespace Photon.Pun
         }
 
 
-        /// <summary>Limits the number of datagrams that are created in each LateUpdate.</summary>
-        /// <remarks>Helps spreading out sending of messages minimally.</remarks>
+        /// <summary>Limits the number of datagrams that are created in each LateUpdate.限制在每个LateUpdate中创建的数据报的数量。</summary>
+        /// <remarks>Helps spreading out sending of messages minimally.帮助最小地分散消息的发送。</remarks>
         public static int MaxDatagrams = 10;
 
-        /// <summary>Signals that outgoing messages should be sent in the next LateUpdate call.</summary>
-        /// <remarks>Up to MaxDatagrams are created to send queued messages.</remarks>
+        /// <summary>Signals that outgoing messages should be sent in the next LateUpdate call.表示应该在下一个LateUpdate调用中发送外发邮件的信号。</summary>
+        /// <remarks>Up to MaxDatagrams are created to send queued messages.创建了最多MaxDatagrams来发送排队的消息。</remarks>
         public static bool SendAsap;
 
-        /// <summary>This corrects the "next time to serialize the state" value by some ms.</summary>
-        /// <remarks>As LateUpdate typically gets called every 15ms it's better to be early(er) than late to achieve a SerializeRate.</remarks>
+        /// <summary>This corrects the "next time to serialize the state" value by some ms.这将“下次序列化状态”值校正了几毫秒。</summary>
+        /// <remarks>As LateUpdate typically gets called every 15ms it's better to be early(er) than late to achieve a SerializeRate.由于LateUpdate通常每15毫秒被调用一次，因此最好早于（或晚于）来实现SerializeRate。</remarks>
         private const int SerializeRateFrameCorrection = 8;
 
-        protected internal int UpdateInterval; // time [ms] between consecutive SendOutgoingCommands calls
+        protected internal int UpdateInterval; // time [ms] between consecutive SendOutgoingCommands calls//连续SendOutgoingCommands调用之间的时间[ms]
 
-        protected internal int UpdateIntervalOnSerialize; // time [ms] between consecutive RunViewUpdate calls (sending syncs, etc)
+        protected internal int UpdateIntervalOnSerialize; // time [ms] between consecutive RunViewUpdate calls (sending syncs, etc)//连续RunViewUpdate调用之间的时间[ms]（发送同步等）
 
         private int nextSendTickCount;
 
@@ -115,7 +115,7 @@ namespace Photon.Pun
             this.UpdateIntervalOnSerialize = 1000 / PhotonNetwork.SerializationRate;
 
             PhotonNetwork.AddCallbackTarget(this);
-            this.StartFallbackSendAckThread();  // this is not done in the base class
+            this.StartFallbackSendAckThread();  // this is not done in the base class//这不是在基类中完成的
         }
 
         protected void Start()
@@ -133,16 +133,16 @@ namespace Photon.Pun
         }
 
 
-        /// <summary>Called in intervals by UnityEngine. Affected by Time.timeScale.</summary>
+        /// <summary>Called in intervals by UnityEngine. Affected by Time.timeScale.由UnityEngine间隔调用。受Time.timeScale的影响。</summary>
         protected void FixedUpdate()
         {
             this.Dispatch();
         }
 
-        /// <summary>Called in intervals by UnityEngine, after running the normal game code and physics.</summary>
+        /// <summary>Called in intervals by UnityEngine, after running the normal game code and physics.运行正常的游戏代码和物理原理后，由UnityEngine间隔调用。</summary>
         protected void LateUpdate()
         {
-            // see MinimalTimeScaleToDispatchInFixedUpdate and FixedUpdate for explanation:
+            // see MinimalTimeScaleToDispatchInFixedUpdate and FixedUpdate for explanation: //有关说明，请参见MinimalTimeScaleToDispatchInFixedUpdate和FixedUpdate。
             if (Time.timeScale <= PhotonNetwork.MinimalTimeScaleToDispatchInFixedUpdate)
             {
                 this.Dispatch();
@@ -154,7 +154,7 @@ namespace Photon.Pun
             {
                 PhotonNetwork.RunViewUpdate();
                 this.nextSendTickCountOnSerialize = currentMsSinceStart + this.UpdateIntervalOnSerialize - SerializeRateFrameCorrection;
-                this.nextSendTickCount = 0; // immediately send when synchronization code was running
+                this.nextSendTickCount = 0; // immediately send when synchronization code was running//当同步代码运行时立即发送
             }
 
             currentMsSinceStart = (int)(Time.realtimeSinceStartup * 1000);
@@ -165,7 +165,7 @@ namespace Photon.Pun
                 int sendCounter = 0;
                 while (PhotonNetwork.IsMessageQueueRunning && doSend && sendCounter < MaxDatagrams)
                 {
-                    // Send all outgoing commands
+                    // Send all outgoing commands//发送所有传出的命令
                     Profiler.BeginSample("SendOutgoingCommands");
                     doSend = PhotonNetwork.NetworkingClient.LoadBalancingPeer.SendOutgoingCommands();
                     sendCounter++;
@@ -176,12 +176,12 @@ namespace Photon.Pun
             }
         }
 
-        /// <summary>Dispatches incoming network messages for PUN. Called in FixedUpdate or LateUpdate.</summary>
+        /// <summary>Dispatches incoming network messages for PUN. Called in FixedUpdate or LateUpdate.为PUN发送传入的网络消息。在FixedUpdate或LateUpdate中调用。</summary>
         /// <remarks>
-        /// It may make sense to dispatch incoming messages, even if the timeScale is near 0.
-        /// That can be configured with PhotonNetwork.MinimalTimeScaleToDispatchInFixedUpdate.
+        /// It may make sense to dispatch incoming messages, even if the timeScale is near 0.///即使timeScale接近0，也可以分派传入消息。
+        /// That can be configured with PhotonNetwork.MinimalTimeScaleToDispatchInFixedUpdate.///可以使用PhotonNetwork.MinimalTimeScaleToDispatchInFixedUpdate进行配置。
         ///
-        /// Without dispatching messages, PUN won't change state and does not handle updates.
+        /// Without dispatching messages, PUN won't change state and does not handle updates.///如果不调度消息，则PUN不会更改状态，也不会处理更新。
         /// </remarks>
         protected void Dispatch()
         {
@@ -200,7 +200,7 @@ namespace Photon.Pun
             bool doDispatch = true;
             while (PhotonNetwork.IsMessageQueueRunning && doDispatch)
             {
-                // DispatchIncomingCommands() returns true of it found any command to dispatch (event, result or state change)
+                // DispatchIncomingCommands() returns true of it found any command to dispatch (event, result or state change)// DispatchIncomingCommands（）返回true，表示找到任何要调度的命令（事件，结果或状态更改）
                 Profiler.BeginSample("DispatchIncomingCommands");
                 doDispatch = PhotonNetwork.NetworkingClient.LoadBalancingPeer.DispatchIncomingCommands();
                 Profiler.EndSample();

@@ -8,6 +8,7 @@
 // <author>developer@exitgames.com</author>
 // ----------------------------------------------------------------------------
 
+
 using ExitGames.Client.Photon;
 using Photon.Realtime;
 using UnityEngine;
@@ -17,11 +18,13 @@ namespace Photon.Pun.Demo
 
     /// <summary>
     /// This class is a sample of how to implement WebRPCs calling & callbacks.
+    /// 这个类是一个如何实现WebRPCs调用和回调的示例。
     /// </summary>
     public class WebRpcImplementationExample : MonoBehaviour, IWebRpcCallback
     {
         /// <summary>
         /// example of WebRPC method name, add yours as enum or constants to avoid typos and have them in one place
+        /// WebRPC方法名的例子，将您的方法名添加为枚举或常量，以避免拼写错误，并将它们放在一个地方
         /// </summary>
         public const string GetGameListWebRpcMethodName = "GetGameList";
 
@@ -37,12 +40,12 @@ namespace Photon.Pun.Demo
                     {
                         Debug.LogError("Unexpected: WebRPC response did not contain WebRPC method name");
                     }
-                    if (webRpcResponse.ResultCode == 0) // success
+                    if (webRpcResponse.ResultCode == 0) // success 成功
                     {
                         switch (webRpcResponse.Name)
                         {
-                            // todo: add your code here
-                            case GetGameListWebRpcMethodName: // example
+                            // todo: add your code here 待办事项:在这里添加代码
+                            case GetGameListWebRpcMethodName: // example 例子
                                 // ... 
                                 break;
                         }
@@ -56,14 +59,14 @@ namespace Photon.Pun.Demo
                         Debug.LogErrorFormat("Web server returned ResultCode={0} for WebRPC method=\"{1}\", Message={2}", webRpcResponse.ResultCode, webRpcResponse.Name, webRpcResponse.Message);
                     }
                     break;
-                case ErrorCode.ExternalHttpCallFailed: // web service unreachable
+                case ErrorCode.ExternalHttpCallFailed: // web service unreachable web服务不可访问
                     Debug.LogErrorFormat("WebRPC call failed as request could not be sent to the server. {0}", response.DebugMessage);
                     break;
-                case ErrorCode.HttpLimitReached: // too many WebRPCs in a short period of time
-                                                 // the debug message should contain the limit exceeded
+                case ErrorCode.HttpLimitReached: // too many WebRPCs in a short period of time 在短时间内太多的WebRPCs
+                                                 // the debug message should contain the limit exceeded 调试消息应该包含超出的限制
                     Debug.LogErrorFormat("WebRPCs rate limit exceeded: {0}", response.DebugMessage);
                     break;
-                case ErrorCode.InvalidOperation: // WebRPC not configured at all OR not configured properly OR trying to send on name server
+                case ErrorCode.InvalidOperation: // WebRPC not configured at all OR not configured properly OR trying to send on name server WebRPC根本没有配置或配置不正确或试图在名称服务器上发送
                     if (PhotonNetwork.Server == ServerConnection.NameServer)
                     {
                         Debug.LogErrorFormat("WebRPC not supported on NameServer. {0}", response.DebugMessage);
@@ -74,7 +77,7 @@ namespace Photon.Pun.Demo
                     }
                     break;
                 default:
-                    // other unknown error, unexpected
+                    // other unknown error, unexpected 其他未知错误，意外
                     Debug.LogErrorFormat("Unexpected error, {0} {1}", response.ReturnCode, response.DebugMessage);
                     break;
             }

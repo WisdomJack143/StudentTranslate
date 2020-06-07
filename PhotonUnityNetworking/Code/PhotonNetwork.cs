@@ -3,7 +3,7 @@
 //   PhotonNetwork Framework for Unity - Copyright (C) 2018 Exit Games GmbH
 // </copyright>
 // <summary>
-// PhotonNetwork is the central class of the PUN package.
+// PhotonNetwork is the central class of the PUN package.PhotonNetwork是PUN软件包的核心类。
 // </summary>
 // <author>developer@exitgames.com</author>
 // ----------------------------------------------------------------------------
@@ -57,24 +57,24 @@ namespace Photon.Pun
 
 
     /// <summary>
-    /// The main class to use the PhotonNetwork plugin.
+    /// The main class to use the PhotonNetwork plugin.使用PhotonNetwork插件的主类。
     /// This class is static.
     /// </summary>
     /// \ingroup publicApi
     public static partial class PhotonNetwork
     {
-        /// <summary>Version number of PUN. Used in the AppVersion, which separates your playerbase in matchmaking.</summary>
+        /// <summary>Version number of PUN. Used in the AppVersion, which separates your playerbase in matchmaking.PUN的版本号。在AppVersion中使用，该版本可在配对中分离您的玩家群体。</summary>
         public const string PunVersion = "2.18.1";
 
-        /// <summary>Version number of your game. Setting this updates the AppVersion, which separates your playerbase in matchmaking.</summary>
+        /// <summary>Version number of your game. Setting this updates the AppVersion, which separates your playerbase in matchmaking.游戏的版本号。设置此设置将更新AppVersion，该AppVersion会在配对中分离您的玩家群体。</summary>
         /// <remarks>
-        /// In PUN, the GameVersion is only one component of the LoadBalancingClient.AppVersion.
-        /// Setting the GameVersion will also set the LoadBalancingClient.AppVersion to: value+'_'+ PhotonNetwork.PunVersion.
+        /// In PUN, the GameVersion is only one component of the LoadBalancingClient.AppVersion.在PUN中，GameVersion只是LoadBalancingClient.AppVersion的一个组件。
+        /// Setting the GameVersion will also set the LoadBalancingClient.AppVersion to: value+'_'+ PhotonNetwork.PunVersion.设置GameVersion还将LoadBalancingClient.AppVersion设置为：value +'_'+ PhotonNetwork.PunVersion。
         ///
-        /// The AppVersion is used to split your playerbase as needed.
-        /// One AppId may have various AppVersions and each is a separate set of users for matchmaking.
+        /// The AppVersion is used to split your playerbase as needed.//AppVersion用于根据需要拆分播放器库。
+        /// One AppId may have various AppVersions and each is a separate set of users for matchmaking.//一个AppId可能具有各种AppVersions，并且每个都是一组单独的用于配对的用户。
         ///
-        /// The AppVersion gets sent in the "Authenticate" step.
+        /// The AppVersion gets sent in the "Authenticate" step.AppVersion在“验证”步骤中发送。
         /// This means you can set the GameVersion right after calling ConnectUsingSettings (e.g.) and the new value will be used on the server.
         /// Once the client is connected, authentication is done and the value won't be sent to the server anymore.
         /// </remarks>
